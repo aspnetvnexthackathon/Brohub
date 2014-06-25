@@ -6,8 +6,8 @@ namespace Brohub.Console
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
-            Console.ReadLine();
+            System.Console.WriteLine("Hello World");
+            System.Console.ReadLine();
         }
     }
 }
