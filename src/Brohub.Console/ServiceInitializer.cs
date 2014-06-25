@@ -21,11 +21,11 @@ namespace Brohub
                 Lifecycle = LifecycleKind.Singleton,
             });
 
-            //serviceCollection.AddSingleton<IGitDataProvider, GitDataProvider>();
-            //serviceCollection.AddSingleton<IAnalyzerDatasourceProvider, GitDatasourceProvider>();
+            serviceCollection.AddSingleton<IGitDataProvider, GitDataProvider>();
+            serviceCollection.AddSingleton<IAnalyzerDatasourceProvider, GitDatasourceProvider>();
 
-            //serviceCollection.AddSingleton<IAnalyzer, LongestCommitMessageAnalyzer>();
-            //serviceCollection.AddSingleton<IAnalyzer, AfterHoursCommitsAnalyzer>();
+            serviceCollection.AddSingleton<IAnalyzer, LongestCommitMessageAnalyzer>();
+            serviceCollection.AddSingleton<IAnalyzer, AfterHoursCommitsAnalyzer>();
             serviceCollection.AddSingleton<IAnalyzer, LineCountAnalyzer>();
 
             serviceCollection.SetupOptions<BrohubAnalyzerOptions>((options) =>

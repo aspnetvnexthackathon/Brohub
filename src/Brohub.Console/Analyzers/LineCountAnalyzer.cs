@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace Brohub.Console.Analyzers
 {
     public class LineCountAnalyzer : IAnalyzer
     {
-        public Dictionary<string, int> values = new Dictionary<string, int>();
+        public Dictionary<string, int> totalLines = new Dictionary<string, int>();
+        public Dictionary<string, int> commentLines = new Dictionary<string, int>();
+        public Dictionary<string, int> emptyLines = new Dictionary<string, int>();
 
         public Task AnalyzeAsync(AnalyzerContext context)
         {
@@ -20,12 +23,13 @@ namespace Brohub.Console.Analyzers
             {
                 Directory.SetCurrentDirectory(localPath);
 
-                var files = Directory.EnumerateFiles(".", "*", SearchOption.AllDirectories);
+                var files = Directory.EnumerateFiles(".", "*.cs", SearchOption.AllDirectories);
 
                 foreach (var filex in files)
                 {
                     string realFile = filex.Substring(2);
 
+                    var text = File.ReadAllLines(realFile);
                     var status = localRepo.Index.RetrieveStatus(realFile);
 
                     if (status == FileStatus.Nonexistent || status == FileStatus.Untracked)
@@ -37,17 +41,16 @@ namespace Brohub.Console.Analyzers
 
                     foreach (var hunk in blame)
                     {
-                        Update(hunk);
+                        UpdateBro(hunk, text);
                     }
-                    // Do what you want with git stuff.
                 }
             }
 
-            var result = new Result()
+            var allLinesResult = new Result()
             {
                 Name = "LineCount",
                 Description = "Number of lines modified",
-                Items = values
+                Items = totalLines
                     .OrderByDescending(kvp => kvp.Value)
                     .Select(kvp => new ResultItem()
                     {
@@ -56,12 +59,42 @@ namespace Brohub.Console.Analyzers
                     }).ToList(),
             };
 
-            context.Results.Add(result);
+            context.Results.Add(allLinesResult);
+
+            var commentLinesResult = new Result()
+            {
+                Name = "LineCount",
+                Description = "Number of lines of comment commited",
+                Items = commentLines
+        .OrderByDescending(kvp => kvp.Value)
+        .Select(kvp => new ResultItem()
+        {
+            UserName = kvp.Key,
+            Value = string.Format("committed {0} lines of comments", kvp.Value),
+        }).ToList(),
+            };
+
+            context.Results.Add(commentLinesResult);
+
+            var emptyLinessResult = new Result()
+            {
+                Name = "LineCount",
+                Description = "Number of empty lines committed",
+                Items = emptyLines
+                    .OrderByDescending(kvp => kvp.Value)
+                    .Select(kvp => new ResultItem()
+                    {
+                        UserName = kvp.Key,
+                        Value = string.Format("committed {0} empty lines", kvp.Value),
+                    }).ToList(),
+            };
+
+            context.Results.Add(emptyLinessResult);
 
             return Task.FromResult<object>(null);
         }
 
-        public void Update(BlameHunk hunk)
+        private void UpdateBro(BlameHunk hunk, string[] text)
         {
             var key = hunk.FinalCommit.Author.Name;
             if (key == null)
@@ -69,25 +102,42 @@ namespace Brohub.Console.Analyzers
                 return;
             }
 
-            if (values.ContainsKey(key))
+            if (totalLines.ContainsKey(key))
             {
-                values[key] += hunk.LineCount;
+                totalLines[key] += hunk.LineCount;
             }
             else
             {
-                values[key] = hunk.LineCount;
+                totalLines[key] = hunk.LineCount;
             }
-        }
 
-        public string Dump()
-        {
-            StringBuilder builder = new StringBuilder();
-            foreach (var dude in values.OrderByDescending(k => k.Value))
+            for (int lineNum = hunk.FinalStartLineNumber; lineNum < hunk.FinalStartLineNumber + hunk.LineCount; lineNum++)
             {
-                builder.AppendLine(dude.Key + ": " + dude.Value);
-            }
+                var line = text[lineNum];
 
-            return builder.ToString();
+                if (line.Contains("//"))
+                {
+                    if (commentLines.ContainsKey(key))
+                    {
+                        commentLines[key] += 1;
+                    }
+                    else
+                    {
+                        commentLines[key] = 1;
+                    }
+                }
+                else if (String.IsNullOrWhiteSpace(line))
+                {
+                    if (emptyLines.ContainsKey(key))
+                    {
+                        emptyLines[key] += 1;
+                    }
+                    else
+                    {
+                        emptyLines[key] = 1;
+                    }
+                }
+            }
         }
     }
 }
