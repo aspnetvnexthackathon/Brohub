@@ -6,11 +6,6 @@
         "net45" : { 
             "dependencies": {
             }
-        },
-        "k10" : { 
-            "dependencies": {
-                "System.Runtime": "4.0.20.0"
-            }
         }
     }
 }
