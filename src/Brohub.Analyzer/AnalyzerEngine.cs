@@ -7,9 +7,23 @@ namespace Brohub.Analyzer
 {
     public class AnalyzerEngine : IAnalyzerEngine
     {
-        public Task<IEnumerable<Result>> AnalyzeAsync(Repository repository)
+        public AnalyzerEngine(
+            IGitDataProvider gitProvider,
+            IEnumerable<IAnalyzer> analyzers)
         {
-            var projects = new ProjectsDatasource();
+            GitProvider = gitProvider;
+            Analyzers = analyzers;
+        }
+
+        private IEnumerable<IAnalyzer> Analyzers { get; set; }
+
+        private IGitDataProvider GitProvider { get; set; }
+
+        public async Task<IEnumerable<Result>> AnalyzeAsync(Repository repository)
+        {
+            var context = new AnalyzerContext(repository);
+
+            var projectsDataSource = new ProjectsDatasource();
             var projectFiles = Directory.EnumerateFiles(repository.LocalPath, "project.json", SearchOption.AllDirectories);
 
             foreach (var projectFile in projectFiles)
@@ -17,16 +31,25 @@ namespace Brohub.Analyzer
                 Project project;
                 if (Project.TryGetProject(projectFile, out project))
                 {
-                    projects.Projects.Add(project);
+                    projectsDataSource.Projects.Add(project);
                 }
             }
 
-            var context = new AnalyzerContext(repository);
-            context.Datasources.Add(projects);
+            context.Datasources.Add(projectsDataSource);
 
-            // TODO: call analyzers
+            var commitsDataSource = new CommitsDatasource();
+            var commits = await GitProvider.GetCommitsAsync(repository.Owner, repository.RepoName);
 
-            return Task.FromResult((IEnumerable<Result>)context.Results);
+            commitsDataSource.Commits.AddRange(commits);
+
+            context.Datasources.Add(commitsDataSource);
+
+            foreach (var analyzer in Analyzers)
+            {
+                await analyzer.AnalyzeAsync(context);
+            }
+
+            return context.Results;
         }
     }
 }

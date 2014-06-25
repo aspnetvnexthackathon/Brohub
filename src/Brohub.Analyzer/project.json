@@ -1,6 +1,8 @@
 ﻿{
     "dependencies": {
+        "Microsoft.Framework.OptionsModel": "1.0.0-*",
         "Microsoft.Framework.Project": "1.0.0-*",
+        "Newtonsoft.Json": "5.0.8",
         "octokit":  "0.3.4"
     },
 

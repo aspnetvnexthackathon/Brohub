@@ -28,6 +28,13 @@
     <Compile Include="AnalyzerContext.cs" />
     <Compile Include="AnalyzerEngine.cs" />
     <Compile Include="Analyzers\SampleRosalynAnalyzer.cs" />
+    <Compile Include="BrohubAnalyzerOptions.cs" />
+    <Compile Include="CommitsDatasource.cs" />
+    <Compile Include="GitIntegration\AllCommitsClient.cs" />
+    <Compile Include="GitIntegration\CommitBro.cs" />
+    <Compile Include="GitIntegration\GitDataProvider.cs" />
+    <Compile Include="GitIntegration\IGitDataProvider.cs" />
+    <Compile Include="GitIntegration\JsonNetSerializer.cs" />
     <Compile Include="IAnalyzer.cs" />
     <Compile Include="IAnalyzerEngine.cs" />
     <Compile Include="ProjectsDatasource.cs" />
