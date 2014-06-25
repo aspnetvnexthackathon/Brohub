@@ -39,7 +39,17 @@ namespace Brohub.Main
 
             foreach (var result in results)
             {
-                System.Console.WriteLine(result);
+                System.Console.WriteLine(result.Name);
+                System.Console.WriteLine(result.Description);
+                System.Console.WriteLine();
+
+                foreach (var item in result.Items)
+                {
+                    System.Console.WriteLine("{0} - {1}", item.UserName, item.Value);
+                }
+
+                System.Console.WriteLine();
+                System.Console.WriteLine();
             }
 
 

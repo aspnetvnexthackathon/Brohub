@@ -32,7 +32,18 @@ namespace Brohub.Analyzer
                 }
             }
 
-            context.Results.Add(new Result());
+            context.Results.Add(new Result()
+            {
+                Description = "Commits between 11pm and 7am",
+                Name = "LateNightCommits",
+                Items = commitsByAuthor
+                        .OrderByDescending(kvp => kvp.Value)
+                        .Select(kvp => new ResultItem()
+                        {
+                            UserName = kvp.Key,
+                            Value = string.Format("{0} late night commits", kvp.Value),
+                        }).ToList(),
+            });
 
             return Task.FromResult<object>(null);
         }
