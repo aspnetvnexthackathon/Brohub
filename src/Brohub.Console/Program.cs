@@ -18,11 +18,16 @@ namespace Brohub.Main
             }
 
             Services = ServiceInitializer.Initialize();
-            string gitCloneUrl = args[0];
-            string gitClonePath = "./" + gitCloneUrl.Split('/').Last().Replace(".git", string.Empty);
 
-            var initializer = new LocalRepoInitializer(gitCloneUrl, gitClonePath);
+            var gitCloneUrl = new Uri(args[0], UriKind.Absolute);
+            var pathParts = gitCloneUrl.AbsolutePath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
+            var owner = pathParts[0];
+            var repoName = pathParts[1].Replace(".git", string.Empty);
+
+            string gitClonePath = "./" + repoName;
+
+            var initializer = new LocalRepoInitializer(gitCloneUrl.AbsoluteUri, gitClonePath);
             initializer.Initialize();
 
             var activator = Services.GetService<ITypeActivator>();
@@ -31,8 +36,8 @@ namespace Brohub.Main
 
             var repository = new Analyzer.Repository()
             {
-                Owner = "aspnet",
-                RepoName = "Logging",
+                Owner = owner,
+                RepoName = repoName,
             };
 
             var results = engine.AnalyzeAsync(repository).Result;
@@ -55,9 +60,9 @@ namespace Brohub.Main
 
             var analysis = new LineCountAnalyzer(gitClonePath);
             analysis.Run();
+            System.Console.WriteLine(analysis.Dump());
 
             System.Console.WriteLine("Press ENTER to quit.");
-            System.Console.WriteLine(analysis.Dump());
             System.Console.ReadLine();
         }
     }
