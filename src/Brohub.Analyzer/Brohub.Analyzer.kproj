@@ -27,6 +27,8 @@
   <ItemGroup>
     <Compile Include="AnalyzerContext.cs" />
     <Compile Include="AnalyzerEngine.cs" />
+    <Compile Include="Analyzers\LongestCommitMessageAnalyzer.cs" />
+    <Compile Include="Analyzers\LongestCommitMessageResult.cs" />
     <Compile Include="Analyzers\SampleRosalynAnalyzer.cs" />
     <Compile Include="BrohubAnalyzerOptions.cs" />
     <Compile Include="CommitsDatasource.cs" />
