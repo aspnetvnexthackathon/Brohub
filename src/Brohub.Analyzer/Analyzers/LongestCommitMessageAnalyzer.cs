@@ -27,8 +27,9 @@ namespace Brohub.Analyzer
 
             context.Results.Add(new LongestCommitMessageResult()
             {
-                Commit = longest,
-                Length = longest.Commit.Message.Length,
+                // TODO: Use the result format.
+                //Commit = longest,
+                //Length = longest.Commit.Message.Length,
             });
 
             return Task.FromResult<object>(null);

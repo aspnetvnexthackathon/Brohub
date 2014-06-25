@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.21813.0
+VisualStudioVersion = 14.0.21730.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Brohub", "src\Brohub\Brohub.kproj", "{6044C1DD-9A8C-4790-90AC-057C7CD93000}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Brohub.Analyzer", "src\Brohub.Analyzer\Brohub.Analyzer.kproj", "{5A90ABCE-7037-4BCB-A3A2-FD9B18E53BB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brohub.Console", "src\Brohub.Console\Brohub.Console.csproj", "{2B12E537-4676-47A1-ABD4-72F98D294B85}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Brohub.GoodConsole", "src\Brohub.GoodConsole\Brohub.GoodConsole.kproj", "{778B335E-FDAB-4DF6-BE77-B773E5593291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{2B12E537-4676-47A1-ABD4-72F98D294B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B12E537-4676-47A1-ABD4-72F98D294B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B12E537-4676-47A1-ABD4-72F98D294B85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{778B335E-FDAB-4DF6-BE77-B773E5593291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{778B335E-FDAB-4DF6-BE77-B773E5593291}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{778B335E-FDAB-4DF6-BE77-B773E5593291}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{778B335E-FDAB-4DF6-BE77-B773E5593291}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,46 +1,54 @@
-﻿using System.IO;
+﻿using System;
 using System.Linq;
-using System.Management.Automation;
-using LibGit2Sharp;
+using Brohub.Analyzer;
+using Brohub.Analyzers;
+using Microsoft.Framework.DependencyInjection;
 
-namespace Brohub
+namespace Brohub.Main
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static IServiceProvider Services { get; private set; }
+
+        public static void Main(string[] args)
         {
             if (args.Length == 0 || !args[0].StartsWith("https://github.com/"))
             {
                 System.Console.WriteLine("A GitHub clone url is required. Ex: https://github.com/aspnet/Mvc.git");
             }
 
+            Services = ServiceInitializer.Initialize();
             string gitCloneUrl = args[0];
             string gitClonePath = "./" + gitCloneUrl.Split('/').Last().Replace(".git", string.Empty);
 
-            DeleteDirectory(gitClonePath);
+            //var initializer = new LocalRepoInitializer(gitCloneUrl, gitClonePath);
 
-            Repository.Clone(gitCloneUrl, "./" + gitClonePath);
+            //initializer.Initialize();
 
-            using(var localRepo = new Repository(gitClonePath))
+            var activator = Services.GetService<ITypeActivator>();
+
+            var engine = activator.CreateInstance<AnalyzerEngine>(Services);
+
+            var repository = new Analyzer.Repository()
             {
-                // Do what you want with git stuff.
+                Owner = "aspnet",
+                RepoName = "Logging",
+            };
+
+            var results = engine.AnalyzeAsync(repository).Result;
+
+            foreach (var result in results)
+            {
+                System.Console.WriteLine(result);
             }
 
-            Console.ReadLine();
-        }
+            System.Console.WriteLine("Press ENTER to quit.");
 
-        private static void DeleteDirectory(string directory)
-        {
-            if (!Directory.Exists(directory))
-            {
-                return;
-            }
+            var analysis = new LineCountAnalyzer(gitClonePath);
 
-            var shell = PowerShell.Create();
+            analysis.Run();
 
-            shell.AddScript("Remove-Item -Force -Recurse \"" + directory + "\"");
-
-            shell.Invoke();
+            System.Console.WriteLine(analysis.Dump());
         }
     }
 }
