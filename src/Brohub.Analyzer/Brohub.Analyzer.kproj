@@ -27,6 +27,7 @@
   <ItemGroup>
     <Compile Include="AnalyzerContext.cs" />
     <Compile Include="AnalyzerEngine.cs" />
+    <Compile Include="Analyzers\AfterHoursCommitsAnalyzer.cs" />
     <Compile Include="Analyzers\LongestCommitMessageAnalyzer.cs" />
     <Compile Include="Analyzers\SampleRosalynAnalyzer.cs" />
     <Compile Include="BrohubAnalyzerOptions.cs" />

@@ -13,22 +13,19 @@ namespace Brohub.Analyzer
     {
 	    public GitDataProvider(IOptionsAccessor<BrohubAnalyzerOptions> options)
 	    {
-            Token = options.Options.Token ?? "98fe272c4ff5c3bb834a8e645d10cfc25eae267e";
+            Token = options.Options.Token;
         }
 
         private string Token { get; set; }
 
         public async Task<IReadOnlyList<Brommit>> GetCommitsAsync(string owner, string repo)
         {
-            var client = new GitHubClient(new ProductHeaderValue("Brohub"))
-            {
-                Credentials = new Credentials(Token),
-            };
+            var credentials = Token == null ? Credentials.Anonymous : new Credentials(Token);
 
             var connection = new Connection(
                 new ProductHeaderValue("Brohub"),
                 new Uri("https://api.github.com/"),
-                new InMemoryCredentialStore(Credentials.Anonymous),
+                new InMemoryCredentialStore(credentials),
                 new HttpClientAdapter(),
                 new JsonNetSerializer());
 
