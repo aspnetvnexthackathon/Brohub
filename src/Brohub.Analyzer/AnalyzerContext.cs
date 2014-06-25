@@ -4,9 +4,9 @@ namespace Brohub.Analyzer
 {
     public class AnalyzerContext
     {
-        public AnalyzerContext(Repository respository)
+        public AnalyzerContext(Repository repository)
         {
-            Repository = Repository;
+            Repository = repository;
 
             Datasources = new List<object>();
             Results = new List<Result>();

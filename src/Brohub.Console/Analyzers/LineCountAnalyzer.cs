@@ -1,26 +1,24 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Brohub.Analyzer;
 using LibGit2Sharp;
 
-namespace Brohub.Analyzers
+namespace Brohub.Console.Analyzers
 {
-    public class LineCountAnalyzer
+    public class LineCountAnalyzer : IAnalyzer
     {
         public Dictionary<string, int> values = new Dictionary<string, int>();
-        private string gitClonePath;
 
-        public LineCountAnalyzer(string path)
+        public Task AnalyzeAsync(AnalyzerContext context)
         {
-            gitClonePath = path;
-        }
-
-        public void Run()
-        {
-            using (var localRepo = new Repository(gitClonePath))
+            var localPath = context.Repository.LocalPath;
+            using (var localRepo = new LibGit2Sharp.Repository(localPath))
             {
-                Directory.SetCurrentDirectory(gitClonePath);
+                Directory.SetCurrentDirectory(localPath);
 
                 var files = Directory.EnumerateFiles(".", "*", SearchOption.AllDirectories);
 
@@ -44,11 +42,33 @@ namespace Brohub.Analyzers
                     // Do what you want with git stuff.
                 }
             }
+
+            var result = new Result()
+            {
+                Name = "LineCount",
+                Description = "Number of lines modified",
+                Items = values
+                    .OrderByDescending(kvp => kvp.Value)
+                    .Select(kvp => new ResultItem()
+                    {
+                        UserName = kvp.Key,
+                        Value = string.Format("changed {0} lines", kvp.Value),
+                    }).ToList(),
+            };
+
+            context.Results.Add(result);
+
+            return Task.FromResult<object>(null);
         }
 
         public void Update(BlameHunk hunk)
         {
             var key = hunk.FinalCommit.Author.Name;
+            if (key == null)
+            {
+                return;
+            }
+
             if (values.ContainsKey(key))
             {
                 values[key] += hunk.LineCount;

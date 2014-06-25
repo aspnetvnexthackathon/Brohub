@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Brohub.Analyzer;
-using Brohub.Analyzers;
+using Brohub.Console.Analyzers;
 using Microsoft.Framework.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Brohub.Main
 {
@@ -15,6 +15,12 @@ namespace Brohub.Main
             if (args.Length == 0 || !args[0].StartsWith("https://github.com/"))
             {
                 System.Console.WriteLine("A GitHub clone url is required. Ex: https://github.com/aspnet/Mvc.git");
+            }
+
+            var outputJson = false;
+            if (args.Length > 1 && args[1] == "--json")
+            {
+                outputJson = true;
             }
 
             Services = ServiceInitializer.Initialize();
@@ -36,31 +42,34 @@ namespace Brohub.Main
 
             var repository = new Analyzer.Repository()
             {
+                LocalPath = gitClonePath,
                 Owner = owner,
                 RepoName = repoName,
             };
 
             var results = engine.AnalyzeAsync(repository).Result;
 
-            foreach (var result in results)
+            if (outputJson)
             {
-                System.Console.WriteLine(result.Name);
-                System.Console.WriteLine(result.Description);
-                System.Console.WriteLine();
-
-                foreach (var item in result.Items)
-                {
-                    System.Console.WriteLine("{0} - {1}", item.UserName, item.Value);
-                }
-
-                System.Console.WriteLine();
-                System.Console.WriteLine();
+                System.Console.WriteLine(JsonConvert.SerializeObject(results));
             }
+            else
+            {
+                foreach (var result in results)
+                {
+                    System.Console.WriteLine(result.Name);
+                    System.Console.WriteLine(result.Description);
+                    System.Console.WriteLine();
 
+                    foreach (var item in result.Items)
+                    {
+                        System.Console.WriteLine("{0} - {1}", item.UserName, item.Value);
+                    }
 
-            var analysis = new LineCountAnalyzer(gitClonePath);
-            analysis.Run();
-            System.Console.WriteLine(analysis.Dump());
+                    System.Console.WriteLine();
+                    System.Console.WriteLine();
+                }
+            }
 
             System.Console.WriteLine("Press ENTER to quit.");
             System.Console.ReadLine();

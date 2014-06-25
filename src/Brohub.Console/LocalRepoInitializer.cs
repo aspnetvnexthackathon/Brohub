@@ -19,7 +19,7 @@ namespace Brohub
         {
             DeleteDirectory(_gitClonePath);
 
-            Repository.Clone(_gitCloneUrl, "./" + _gitClonePath);
+            Repository.Clone(_gitCloneUrl, _gitClonePath);
         }
 
         private static void DeleteDirectory(string directory)

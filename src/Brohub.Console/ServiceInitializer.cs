@@ -3,6 +3,7 @@ using Brohub.Analyzer;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.DependencyInjection.Fallback;
 using Microsoft.Framework.OptionsModel;
+using Brohub.Console.Analyzers;
 
 namespace Brohub
 {
@@ -11,6 +12,7 @@ namespace Brohub
         public static IServiceProvider Initialize()
         {
             var serviceCollection = new ServiceCollection();
+
             serviceCollection.AddSingleton<ITypeActivator, TypeActivator>();
             serviceCollection.Add(new ServiceDescriptor()
             {
@@ -18,10 +20,13 @@ namespace Brohub
                 ImplementationType = typeof(OptionsAccessor<>),
                 Lifecycle = LifecycleKind.Singleton,
             });
-            serviceCollection.AddSingleton<IGitDataProvider, GitDataProvider>();
-            serviceCollection.AddSingleton<IAnalyzerDatasourceProvider, GitDatasourceProvider>();
-            serviceCollection.AddSingleton<IAnalyzer, LongestCommitMessageAnalyzer>();
-            serviceCollection.AddSingleton<IAnalyzer, AfterHoursCommitsAnalyzer>();
+
+            //serviceCollection.AddSingleton<IGitDataProvider, GitDataProvider>();
+            //serviceCollection.AddSingleton<IAnalyzerDatasourceProvider, GitDatasourceProvider>();
+
+            //serviceCollection.AddSingleton<IAnalyzer, LongestCommitMessageAnalyzer>();
+            //serviceCollection.AddSingleton<IAnalyzer, AfterHoursCommitsAnalyzer>();
+            serviceCollection.AddSingleton<IAnalyzer, LineCountAnalyzer>();
 
             serviceCollection.SetupOptions<BrohubAnalyzerOptions>((options) =>
             {
