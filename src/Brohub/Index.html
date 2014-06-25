@@ -1,11 +1,11 @@
 ﻿<!doctype html>
-<html ng-app>
+<html ng-app="Brohub">
 <head>
     <title>Brohub - Github for Bros</title>
     <link href="/Content/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap-theme.css" rel="stylesheet" />
 </head>
-<body ng-controller="BroController as broCtrl">
+<body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
@@ -14,21 +14,12 @@
             </ul>
         </div>
     </nav>
-    <section>
-        <header>
-            <hgroup>
-                <h1>Hello {{broCtrl.bro}}</h1>
-            </hgroup>
-        </header>
+    <section ng-view>
     </section>
-    <script src="scripts/jquery-2.1.1.js"></script>
+    <script src="Scripts/jquery-2.1.1.js"></script>
     <script src="Scripts/bootstrap.js" type="text/javascript"></script>
     <script src="Scripts/angular/angular.js" type="text/javascript"></script>
     <script src="Scripts/angular/angular-route.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        function BroController() {
-            this.bro = 'Bro';
-        };
-    </script>
+    <script src="Scripts/app/app.js"></script>
 </body>
 </html>

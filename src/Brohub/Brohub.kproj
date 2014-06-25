@@ -25,7 +25,7 @@
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DevelopmentServerPort>51202</DevelopmentServerPort>
+    <DevelopmentServerPort>51203</DevelopmentServerPort>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -55,6 +55,7 @@
     <Content Include="Scripts\angular\angular.js" />
     <Content Include="Scripts\angular\angular.min.js" />
     <Content Include="Scripts\angular\angular.min.js.map" />
+    <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.1-vsdoc.js" />
@@ -68,6 +69,7 @@
     <Content Include="Tests\lib\jasmine-2.0.0\jasmine.js" />
     <Content Include="Tests\lib\jasmine-2.0.0\jasmine_favicon.png" />
     <Content Include="Tests\SpecRunner.html" />
+    <Content Include="Views\Home\Index.html" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Web.config">
