@@ -1,0 +1,33 @@
+﻿<!doctype html>
+<html ng-app>
+<head>
+    <title>Brohub - Github for Bros</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+<body ng-controller="BroController as broCtrl">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li class="navbar-brand">Brohub</li>
+                <li class="navbar-text small">Github for bro's</li>
+            </ul>
+        </div>
+    </nav>
+    <section>
+        <header>
+            <hgroup>
+                <h1>Hello {{broCtrl.bro}}</h1>
+            </hgroup>
+        </header>
+    </section>
+    <script src="Scripts/bootstrap.js" type="text/javascript"></script>
+    <script src="Scripts/angular/angular.js" type="text/javascript"></script>
+    <script src="Scripts/angular/angular-route.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function BroController() {
+            this.bro = 'Bro';
+        };
+    </script>
+</body>
+</html>
