@@ -21,9 +21,9 @@ namespace Brohub.Main
             string gitCloneUrl = args[0];
             string gitClonePath = "./" + gitCloneUrl.Split('/').Last().Replace(".git", string.Empty);
 
-            //var initializer = new LocalRepoInitializer(gitCloneUrl, gitClonePath);
+            var initializer = new LocalRepoInitializer(gitCloneUrl, gitClonePath);
 
-            //initializer.Initialize();
+            initializer.Initialize();
 
             var activator = Services.GetService<ITypeActivator>();
 
@@ -42,13 +42,13 @@ namespace Brohub.Main
                 System.Console.WriteLine(result);
             }
 
-            System.Console.WriteLine("Press ENTER to quit.");
 
             var analysis = new LineCountAnalyzer(gitClonePath);
-
             analysis.Run();
 
+            System.Console.WriteLine("Press ENTER to quit.");
             System.Console.WriteLine(analysis.Dump());
+            System.Console.ReadLine();
         }
     }
 }

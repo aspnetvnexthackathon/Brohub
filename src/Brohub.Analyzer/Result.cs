@@ -4,10 +4,15 @@ namespace Brohub.Analyzer
 {
     public class Result
     {
+        public Result()
+        {
+            Items = new List<ResultItem>();
+        }
+
         public string Name { get; set; }
         public string Description { get; set; }
 
-        List<ResultItem> Items = new List<ResultItem>();
+        public List<ResultItem> Items { get; set; }
     }
 
     public class ResultItem
