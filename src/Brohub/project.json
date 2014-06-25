@@ -1,16 +1,17 @@
 ﻿{
     "dependencies": {
-        "Microsoft.Aspnet.Server.IIS" : "1.0.0-alpha3-*",
+        "Microsoft.Aspnet.Server.IIS": "1.0.0-alpha3-*",
         "Microsoft.AspNet.Mvc": "6.0.0-alpha3-*",
+        "Microsoft.AspNet.StaticFiles": "1.0.0-alpha3-*",
         "bootstrap": "3.0.0",
         "jQuery": "2.1.1",
-        "angularjs.core" : "1.2.18",
+        "angularjs.core": "1.2.18",
         "angularjs.route": "1.2.18",
         "angularjs.animate": "1.2.18",
         "angularjs.resource": "1.2.18",
         "angularjs.loader": "1.2.18"
     },
-    "configurations" : {
-        "net45" : { }
+    "configurations": {
+        "net45": { }
     }
 }

@@ -2,6 +2,9 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
+using Microsoft.AspNet.StaticFiles;
+using Microsoft.AspNet.Http;
+using System.Threading.Tasks;
 
 namespace Brohub
 {
@@ -16,8 +19,10 @@ namespace Brohub
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("default", "{controller}/{action}",new { controller = "Home", action = "Index" });
+                routes.MapRoute("default", "api/{controller}/{action}");
             });
+
+            app.UseStaticFiles();
         }
     }
 }
