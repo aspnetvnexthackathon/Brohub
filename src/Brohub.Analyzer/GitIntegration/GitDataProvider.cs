@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Brohub.Console;
@@ -19,7 +18,7 @@ namespace Brohub.Analyzer
 
         private string Token { get; set; }
 
-        public async Task<IReadOnlyList<Commit>> GetCommitsAsync(string owner, string repo)
+        public async Task<IReadOnlyList<Brommit>> GetCommitsAsync(string owner, string repo)
         {
             var client = new GitHubClient(new ProductHeaderValue("Brohub"))
             {
@@ -43,8 +42,7 @@ namespace Brohub.Analyzer
 
             var commitsClient = new AllCommitsClient(new ApiConnection(connection));
             var commits = await commitsClient.GetAllCommits(owner, repo);
-
-            return commits.Select(c => c.Commit).ToList();
+            return commits;
         }
     }
 }

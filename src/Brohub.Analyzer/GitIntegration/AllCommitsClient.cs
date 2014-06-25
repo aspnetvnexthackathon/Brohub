@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Brohub.Console;
 using Octokit;
 
 namespace Brohub.Analyzer
@@ -18,9 +17,9 @@ namespace Brohub.Analyzer
 
         private ApiPagination Pagination { get; set; }
 
-        public async Task<IReadOnlyList<CommitBro>> GetAllCommits(string owner, string repo)
+        public async Task<IReadOnlyList<Brommit>> GetAllCommits(string owner, string repo)
         {
-            return await Connection.GetAll<CommitBro>(GetUri(owner, repo));
+            return await Connection.GetAll<Brommit>(GetUri(owner, repo));
         }
 
         private Uri GetUri(string owner, string repo)

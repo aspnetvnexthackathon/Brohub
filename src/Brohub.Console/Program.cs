@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using LibGit2Sharp;
@@ -12,7 +11,7 @@ namespace Brohub
         {
             if (args.Length == 0 || !args[0].StartsWith("https://github.com/"))
             {
-                Console.WriteLine("A GitHub clone url is required. Ex: https://github.com/aspnet/Mvc.git");
+                System.Console.WriteLine("A GitHub clone url is required. Ex: https://github.com/aspnet/Mvc.git");
             }
 
             string gitCloneUrl = args[0];

@@ -6,6 +6,6 @@ namespace Brohub.Analyzer
 {
     public interface IGitDataProvider
     {
-        Task<IReadOnlyList<Commit>> GetCommitsAsync(string owner, string repo);
+        Task<IReadOnlyList<Brommit>> GetCommitsAsync(string owner, string repo);
     }
 }

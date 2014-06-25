@@ -14,10 +14,12 @@ namespace Brohub.Analyzer
         {
             var commits = context.Datasources.OfType<CommitsDatasource>().Single();
 
-            var longest = (Commit)null;
+            var longest = (Brommit)null;
             foreach (var commit in commits.Commits)
             {
-                if (commit.Message.Length > longest.Message.Length)
+                if (longest == null ||
+                    longest.Commit == null ||
+                    commit.Commit.Message.Length > longest.Commit.Message.Length)
                 {
                     longest = commit;
                 }
@@ -26,7 +28,7 @@ namespace Brohub.Analyzer
             context.Results.Add(new LongestCommitMessageResult()
             {
                 Commit = longest,
-                Length = longest.Message.Length,
+                Length = longest.Commit.Message.Length,
             });
 
             return Task.FromResult<object>(null);

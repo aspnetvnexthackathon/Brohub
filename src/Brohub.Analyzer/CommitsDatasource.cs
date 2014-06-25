@@ -7,9 +7,9 @@ namespace Brohub.Analyzer
     {
 	    public CommitsDatasource()
 	    {
-            Commits = new List<Commit>();
+            Commits = new List<Brommit>();
 	    }
         
-        public List<Commit> Commits { get; private set; }
+        public List<Brommit> Commits { get; private set; }
     }
 }

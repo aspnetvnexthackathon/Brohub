@@ -4,47 +4,32 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
+
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
   </PropertyGroup>
+
   <Import Project="$(VSToolsPath)\AspNet\Microsoft.Web.AspNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>5a90abce-7037-4bcb-a3a2-fd9b18e53bb1</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>778b335e-fdab-4df6-be77-b773e5593291</ProjectGuid>
+    <OutputType>Console</OutputType>
   </PropertyGroup>
+
   <PropertyGroup Condition="$(OutputType) == 'Console'">
     <DebuggerFlavor>ConsoleDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="$(OutputType) == 'Web'">
     <DebuggerFlavor>WebDebugger</DebuggerFlavor>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" Label="Configuration">
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnalyzerContext.cs" />
-    <Compile Include="AnalyzerEngine.cs" />
-    <Compile Include="Analyzers\LongestCommitMessageAnalyzer.cs" />
-    <Compile Include="Analyzers\LongestCommitMessageResult.cs" />
-    <Compile Include="Analyzers\SampleRosalynAnalyzer.cs" />
-    <Compile Include="BrohubAnalyzerOptions.cs" />
-    <Compile Include="CommitsDatasource.cs" />
-    <Compile Include="GitIntegration\AllCommitsClient.cs" />
-    <Compile Include="GitIntegration\Brommit.cs" />
-    <Compile Include="GitIntegration\GitDataProvider.cs" />
-    <Compile Include="GitIntegration\GitDatasourceProvider.cs" />
-    <Compile Include="GitIntegration\IGitDataProvider.cs" />
-    <Compile Include="GitIntegration\JsonNetSerializer.cs" />
-    <Compile Include="IAnalyzer.cs" />
-    <Compile Include="IAnalyzerDatasourceProvider.cs" />
-    <Compile Include="IAnalyzerEngine.cs" />
-    <Compile Include="ProjectsDatasource.cs" />
-    <Compile Include="ProjectsDatasourceProvider.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="Result.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="project.json" />

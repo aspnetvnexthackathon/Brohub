@@ -7,42 +7,25 @@ namespace Brohub.Analyzer
 {
     public class AnalyzerEngine : IAnalyzerEngine
     {
-        public AnalyzerEngine(
-            IGitDataProvider gitProvider,
-            IEnumerable<IAnalyzer> analyzers)
+        public AnalyzerEngine(IEnumerable<IAnalyzer> analyzers, IEnumerable<IAnalyzerDatasourceProvider> datasources)
         {
-            GitProvider = gitProvider;
             Analyzers = analyzers;
+            Datasources = datasources;
         }
 
         private IEnumerable<IAnalyzer> Analyzers { get; set; }
 
-        private IGitDataProvider GitProvider { get; set; }
+        private IEnumerable<IAnalyzerDatasourceProvider> Datasources { get; set; }
 
         public async Task<IEnumerable<Result>> AnalyzeAsync(Repository repository)
         {
             var context = new AnalyzerContext(repository);
 
-            var projectsDataSource = new ProjectsDatasource();
-            var projectFiles = Directory.EnumerateFiles(repository.LocalPath, "project.json", SearchOption.AllDirectories);
-
-            foreach (var projectFile in projectFiles)
+            foreach (var datasource in Datasources)
             {
-                Project project;
-                if (Project.TryGetProject(projectFile, out project))
-                {
-                    projectsDataSource.Projects.Add(project);
-                }
+                var data = await datasource.GetDatasourceAsync(repository);
+                context.Datasources.Add(data);
             }
-
-            context.Datasources.Add(projectsDataSource);
-
-            var commitsDataSource = new CommitsDatasource();
-            var commits = await GitProvider.GetCommitsAsync(repository.Owner, repository.RepoName);
-
-            commitsDataSource.Commits.AddRange(commits);
-
-            context.Datasources.Add(commitsDataSource);
 
             foreach (var analyzer in Analyzers)
             {
