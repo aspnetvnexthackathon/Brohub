@@ -26,8 +26,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnalyzerContext.cs" />
+    <Compile Include="AnalyzerEngine.cs" />
+    <Compile Include="Analyzers\SampleRosalynAnalyzer.cs" />
     <Compile Include="IAnalyzer.cs" />
     <Compile Include="IAnalyzerEngine.cs" />
+    <Compile Include="ProjectsDatasource.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Result.cs" />
   </ItemGroup>

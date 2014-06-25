@@ -8,8 +8,11 @@ namespace Brohub.Analyzer
         {
             Repository = Repository;
 
+            Datasources = new List<object>();
             Results = new List<Result>();
         }
+
+        public List<object> Datasources { get; private set; }
 
         public Repository Repository { get; private set; }
 
