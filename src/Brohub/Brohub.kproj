@@ -28,7 +28,16 @@
     <DevelopmentServerPort>51207</DevelopmentServerPort>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApiModels\BadgeModel.cs" />
+    <Compile Include="ApiModels\RepositoryModel.cs" />
+    <Compile Include="ApiModels\UserModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RepositoryController.cs" />
+    <Compile Include="Repo\Badge.cs" />
+    <Compile Include="Repo\BrohubContext.cs" />
+    <Compile Include="Repo\Repository.cs" />
+    <Compile Include="Repo\RepositoryBadge.cs" />
+    <Compile Include="Repo\User.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

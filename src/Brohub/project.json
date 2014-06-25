@@ -1,5 +1,6 @@
 ﻿{
     "dependencies": {
+        "EntityFramework.SqlServer": "7.0.0-alpha3-*",
         "Microsoft.Aspnet.Server.IIS": "1.0.0-alpha3-*",
         "Microsoft.AspNet.Mvc": "6.0.0-alpha3-*",
         "Microsoft.AspNet.StaticFiles": "1.0.0-alpha3-*",
@@ -11,7 +12,7 @@
         "angularjs.resource": "1.2.18",
         "angularjs.loader": "1.2.18"
     },
-    "configurations": {
-        "net45": { }
+    "configurations" : {
+        "net451" : { }
     }
 }
