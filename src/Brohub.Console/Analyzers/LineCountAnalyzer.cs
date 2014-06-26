@@ -16,6 +16,8 @@ namespace Brohub.Console.Analyzers
         public Dictionary<string, int> commentLines = new Dictionary<string, int>();
         public Dictionary<string, int> emptyLines = new Dictionary<string, int>();
 
+        public Dictionary<string, int> mostLinesToSingleFile = new Dictionary<string, int>();
+
         public Task AnalyzeAsync(AnalyzerContext context)
         {
             var localPath = context.Repository.LocalPath;
@@ -39,9 +41,20 @@ namespace Brohub.Console.Analyzers
 
                     var blame = localRepo.Blame(realFile);
 
+                    var linesPerFilePerUser = new Dictionary<string, int>();
                     foreach (var hunk in blame)
                     {
-                        UpdateBro(hunk, text);
+                        UpdateBro(hunk, text, linesPerFilePerUser);
+                    }
+
+                    foreach (var user in linesPerFilePerUser)
+                    {
+                        int value;
+                        if (!mostLinesToSingleFile.TryGetValue(user.Key, out value) ||
+                            user.Value > value)
+                        {
+                            mostLinesToSingleFile[user.Key] = user.Value;
+                        }
                     }
                 }
             }
@@ -91,10 +104,25 @@ namespace Brohub.Console.Analyzers
 
             context.Results.Add(emptyLinessResult);
 
+            var mostLinesCommitedToFileResult = new Result()
+            {
+                Name = "MostLinesModifiedInSingleFile",
+                Description = "Most lines modified in single file",
+                Items = mostLinesToSingleFile
+                    .OrderByDescending(kvp => kvp.Value)
+                    .Select(kvp => new ResultItem()
+                    {
+                        UserName = kvp.Key,
+                        Value = string.Format("modified {0} lines in a single file.", kvp.Value),
+                    }).ToList(),
+            };
+
+            context.Results.Add(mostLinesCommitedToFileResult);
+
             return Task.FromResult<object>(null);
         }
 
-        private void UpdateBro(BlameHunk hunk, string[] text)
+        private void UpdateBro(BlameHunk hunk, string[] text, Dictionary<string, int> linesPerUser)
         {
             var key = hunk.FinalCommit.Author.Name;
             if (key == null)
@@ -111,9 +139,29 @@ namespace Brohub.Console.Analyzers
                 totalLines[key] = hunk.LineCount;
             }
 
+            if (linesPerUser.ContainsKey(key))
+            {
+                linesPerUser[key] += hunk.LineCount;
+            }
+            else
+            {
+                linesPerUser[key] = hunk.LineCount;
+            }
+
+            var linesModifiedInFile = new Dictionary<string, int>();
+
             for (int lineNum = hunk.FinalStartLineNumber; lineNum < hunk.FinalStartLineNumber + hunk.LineCount; lineNum++)
             {
                 var line = text[lineNum];
+
+                if (linesModifiedInFile.ContainsKey(key))
+                {
+                    linesModifiedInFile[key] ++;
+                }
+                else
+                {
+                    linesModifiedInFile[key] = 1;
+                }
 
                 if (line.Contains("//"))
                 {
