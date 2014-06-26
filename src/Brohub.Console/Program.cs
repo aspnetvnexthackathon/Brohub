@@ -68,11 +68,11 @@ namespace Brohub.Main
 
                     System.Console.WriteLine();
                     System.Console.WriteLine();
+
+                    System.Console.WriteLine("Press ENTER to quit.");
+                    System.Console.ReadLine();
                 }
             }
-
-            System.Console.WriteLine("Press ENTER to quit.");
-            System.Console.ReadLine();
         }
     }
 }
